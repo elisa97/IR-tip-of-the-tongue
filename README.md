@@ -59,6 +59,18 @@ Example:
 I want to build a website selling t-shirts bags posters with text of whole book. Please write keywords that I should include so that the webpage can be easily found.
 
 
+### Idea 2:
+
+The Tip-of-the-Tongue track has now a training and validation dataset.
+
+Use HDCT/DeepCT to remove unimportant terms from the documents and queries.
+
+- Extract reddit questions with links to web pages
+- download linked pages with https://github.com/hartator/wayback-machine-downloader
+- Train a BERT Model (we already have the corresponding training scripts) to remove terms that do not occur in the query /
+  - Dedicated models for (1) the query, and (2) the document
+  - Multiple dedicated models for different fields: title, url, full text of the document
+
 # Evaluation results for the Title Baseline
 
 ```
