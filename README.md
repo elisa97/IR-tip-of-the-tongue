@@ -71,6 +71,7 @@ Use HDCT/DeepCT to remove unimportant terms from the documents and queries.
   - Dedicated models for (1) the query, and (2) the document
   - Multiple dedicated models for different fields: title, url, full text of the document
 
+python subprocess.checkoutput mit try except drum:
 docker run -v ${PWD}/websites:/websites hartator/wayback-machine-downloader --exact-url --from 20110225005609 --to 20120225005609 --maximum-snapshot 2 http://www.louissachar.com/Wayside.htm
 
 # Evaluation results for the Title Baseline
