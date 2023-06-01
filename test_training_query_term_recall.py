@@ -1,7 +1,6 @@
 import json
-import importlib
-calculate_doc_term_recall = importlib.import_module('get_training_query_term_recall').calculate_doc_term_recall
-passage_calculate_doc_term_recall = importlib.import_module('passage_extraction_util').passage_calculate_doc_term_recall
+from get_training_query_term_recall import calculate_doc_term_recall
+from passage_extraction_util import passage_calculate_doc_term_recall
 
 
 class test_args():
