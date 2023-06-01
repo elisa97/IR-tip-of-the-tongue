@@ -76,9 +76,8 @@ def passages(document_text,passage_len=300):
     return [(i[0] +1, i[1]) for i in enumerate(ret)]
 
 def passage_calculate_doc_term_recall(lines, args):
-    import importlib
     import json
-    calculate_doc_term_recall = importlib.import_module('get_training_query_term_recall').calculate_doc_term_recall
+    from get_training_query_term_recall import calculate_doc_term_recall
 
     for line in lines:
         json_dict = json.loads(line)
