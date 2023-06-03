@@ -29,3 +29,6 @@ run-oracle-baseline:
 jupyter: tomt-dataset-tira/queries.jsonl
 	docker run -p 8888:8888 --rm -ti -v ${PWD}:/workspace tomt-baseline-title
 
+crawl-urls-in-progress:
+	./crawl-outlinks.py all-links-on-answer-paths/xaa
+
