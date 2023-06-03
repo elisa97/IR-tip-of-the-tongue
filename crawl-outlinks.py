@@ -31,7 +31,7 @@ def get_htmls(entry):
                     ret[link] = html_file + suffix
                     break
             if link not in ret:
-                raise ValueError('todo')
+                raise ValueError(f'Todo: {link}')
 
     return ret
 
