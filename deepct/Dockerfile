@@ -19,3 +19,7 @@ RUN rm /etc/apt/sources.list.d/cuda.list \
 
 ENV BERT_BASE_DIR="/bert_uncased_L-12_H-768_A-12/"
 
+ADD deepct-with-models /deepct-models/
+
+RUN pip3 install pytest spacy \
+	&& python3 -c 'from spacy.lang.en import English; nlp = English(); nlp.add_pipe("sentencizer"); raw_text = "Hello, world. Here are two sentences."; print(list(nlp(raw_text).sents))'
