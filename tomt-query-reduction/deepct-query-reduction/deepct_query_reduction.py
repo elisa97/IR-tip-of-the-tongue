@@ -67,9 +67,15 @@ def run_deepct_prediction(model_checkpoint, input_file):
         return ret
 
 
+def main(model_checkpoints, input_file, output_file):
+    ret = {}
 
-def main():
-    print(execute_command_and_check_output('/deepct-models/deepct-main-01/output/model.ckpt-20000'))
+    for model_checkpoint in model_checkpoints:
+        ret[model_checkpoint] = run_deepct_prediction(model_checkpoint, input_file)
+
+    with open(output_file, 'w') as f:
+        f.write(json.dumps(ret))
+
 
 def parse_deepct_output_line(line):
     if not line:
@@ -102,5 +108,14 @@ def parse_deepct_output(lines):
     return ret
 
 
+def parse_args():
+    import argparse
+    parser = argparse.ArgumentParser(description='Run DeepCT on a set of queries')
+    parser.add_argument('--model_checkpoints', type=str, help='The checkpoint of the model to use', nargs='+', default=['/deepct-models/deepct-main-01/output/model.ckpt-0', '/deepct-models/deepct-main-01/output/model.ckpt-20000', '/deepct-models/deepct-main-01/output/model.ckpt-22503', '/deepct-models/deepct-main-02/output/model.ckpt-0', '/deepct-models/deepct-title-01/output/model.ckpt-0', '/deepct-models/deepct-title-01/output/model.ckpt-20000', '/deepct-models/deepct-title-01/output/model.ckpt-21166'])
+    parser.add_argument('--input_file', type=str, help='The input file containing the queries')
+    parser.add_argument('--output_file', type=str, help='The output file containing the results')
+    return parser.parse_args()
+
 if __name__ == '__main__':
-    main()
+    args = parse_args()
+    main(args.model_checkpoints, args.input_file, args.output_file)
