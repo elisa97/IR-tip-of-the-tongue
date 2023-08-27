@@ -108,6 +108,9 @@ class DeepCTQueryReduction():
 
         return ' '.join(ret)
 
+    def as_transformer(self):
+        import pyterrier
+        return pyterrier.apply.query(lambda i: self.reduce_query(i))
 
 
 def main(model_checkpoints, input_file, output_file):
