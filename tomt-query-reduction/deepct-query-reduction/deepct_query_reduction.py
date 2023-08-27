@@ -6,13 +6,15 @@ import os
 from spacy.lang.en import English
 import json
 
-nlp = English()
-nlp.add_pipe("sentencizer")
-
 # append directory to path so that we can easily execute the deepct script
 sys.path.append('/deepct')
 
 def partition_sentences(text, length_target=800):
+    global nlp
+    if not nlp:
+        nlp = English()
+        nlp.add_pipe("sentencizer")
+
     sentences = nlp(text).sents
     ret = ''
     for sentence in sentences:
@@ -65,6 +67,41 @@ def run_deepct_prediction(model_checkpoint, input_file):
             ret[qid] = ret[qid] + ret_raw[i]
 
         return ret
+
+
+def determine_per_query_threshold(predictions_for_query, threshold):
+    ret = -1000000
+    matching_tokens = 0
+    scores = sorted([s for t, s in predictions_for_query if len(t) > 1], reverse=True)
+
+    for score in scores:
+        print(score)
+        if threshold is not None and matching_tokens/len(scores) < threshold:
+            print('-->' + str(matching_tokens/len(scores)))
+            matching_tokens += 1
+            ret = score
+
+    return ret
+
+
+class DeepCTQueryReduction():
+    def __init__(self, deep_ct_predictions, configuration):
+        self.model = configuration.split(';')[0]
+        self.threshold = float(configuration.split(';')[1]) if configuration.split(';')[1].lower() != 'none' else None
+        self.predictions = json.load(open(deep_ct_predictions, 'r'))
+    
+    def reduce_query(self, query):
+        query_id = query if type(query) == str else query['qid']
+        predictions_for_query = self.predictions[self.model][query_id]
+        threshold_for_query = determine_per_query_threshold(predictions_for_query, self.threshold)
+        ret = []
+
+        for token, score in predictions_for_query:
+            if len(token) > 1 and (threshold_for_query == None or score >= threshold_for_query):
+                ret += [token]
+
+        return ' '.join(ret)
+
 
 
 def main(model_checkpoints, input_file, output_file):
