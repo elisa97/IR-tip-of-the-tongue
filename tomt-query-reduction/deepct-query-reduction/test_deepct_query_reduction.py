@@ -86,6 +86,14 @@ def test_query_reduction_10():
     assert actual == 'person love headed help movie details drama man working life writer plot making people last'
 
 
+def test_query_reduction_11():
+    query_reduction = DeepCTQueryReduction('tot-train-deepct-predictions/predictions.json', '/deepct-models/deepct-main-01/output/model.ckpt-20000;0.1;True')
+    
+    actual = query_reduction.reduce_query({'qid': '802', 'query': 'x y z'})
+    assert 15 == len(actual.split())
+    assert actual == 'person love headed help movie details drama man working life plot making friends people last'
+
+
 def test_determine_per_query_threshold_01():
     input = [['T1', 0.1], ['T2', 0.2], ['T3', 0.3], ['T4', 0.4], ['T5', 0.5], ['T6', 0.6]]
     expected = 0.1
