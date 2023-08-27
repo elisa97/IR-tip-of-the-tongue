@@ -75,9 +75,7 @@ def determine_per_query_threshold(predictions_for_query, threshold):
     scores = sorted([s for t, s in predictions_for_query if len(t) > 1], reverse=True)
 
     for score in scores:
-        print(score)
         if threshold is not None and matching_tokens/len(scores) < threshold:
-            print('-->' + str(matching_tokens/len(scores)))
             matching_tokens += 1
             ret = score
 
@@ -88,6 +86,7 @@ class DeepCTQueryReduction():
     def __init__(self, deep_ct_predictions, configuration):
         self.model = configuration.split(';')[0]
         self.threshold = float(configuration.split(';')[1]) if configuration.split(';')[1].lower() != 'none' else None
+        self.omit_duplicates = False if len(configuration.split(';')) < 3 else configuration.split(';')[2].lower() == 'true'
         self.predictions = json.load(open(deep_ct_predictions, 'r'))
     
     def reduce_query(self, query):
@@ -95,8 +94,12 @@ class DeepCTQueryReduction():
         predictions_for_query = self.predictions[self.model][query_id]
         threshold_for_query = determine_per_query_threshold(predictions_for_query, self.threshold)
         ret = []
+        covered_terms = set()
 
         for token, score in predictions_for_query:
+            if self.omit_duplicates and token in covered_terms:
+                continue
+            covered_terms.add(token)
             if len(token) > 1 and (threshold_for_query == None or score >= threshold_for_query):
                 ret += [token]
 
