@@ -3,8 +3,10 @@ import sys
 from tempfile import TemporaryDirectory
 from pathlib import Path
 import os
-from spacy.lang.en import English
+
 import json
+
+nlp = None
 
 # append directory to path so that we can easily execute the deepct script
 sys.path.append('/deepct')
@@ -12,6 +14,7 @@ sys.path.append('/deepct')
 def partition_sentences(text, length_target=800):
     global nlp
     if not nlp:
+        from spacy.lang.en import English
         nlp = English()
         nlp.add_pipe("sentencizer")
 
