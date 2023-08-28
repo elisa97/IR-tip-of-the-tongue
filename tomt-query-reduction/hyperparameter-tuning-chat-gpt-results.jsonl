@@ -1,0 +1,3 @@
+{"Prompt":"1","train_ndcg_cut_10":0.1097097337,"train_recip_rank":0.1080534524,"train_P_10":0.014,"dev_ndcg_cut_10":0.1109543038,"dev_recip_rank":0.1075831699,"dev_P_10":0.0146666667}
+{"Prompt":"2","train_ndcg_cut_10":0.0990822157,"train_recip_rank":0.0938801964,"train_P_10":0.014,"dev_ndcg_cut_10":0.0830421302,"dev_recip_rank":0.078846043,"dev_P_10":0.0113333333}
+{"Prompt":"3","train_ndcg_cut_10":0.0711471922,"train_recip_rank":0.0673979346,"train_P_10":0.0106666667,"dev_ndcg_cut_10":0.1135011168,"dev_recip_rank":0.1046068925,"dev_P_10":0.0153333333}
