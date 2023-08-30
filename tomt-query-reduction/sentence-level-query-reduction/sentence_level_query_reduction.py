@@ -46,6 +46,6 @@ def get_model_by_name(model_name):
     model_name = model_name.split(',')
 
     return ClassificationModel(
-        model_name[0], model_name[1], use_cuda=use_cuda
+        model_name[0], model_name[1], use_cuda=use_cuda,
     )
     
